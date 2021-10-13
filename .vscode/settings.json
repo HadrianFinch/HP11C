@@ -1,0 +1,9 @@
+{
+    "C_Cpp.errorSquiggles": "Enabled",
+    "files.associations": {
+        "*.rc": "csharp",
+        "*.build": "dart",
+        "manifest": "xml",
+        "xstring": "cpp"
+    }
+}

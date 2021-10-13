@@ -1,0 +1,12 @@
+#include "src\resources.h"
+
+IMG_ICON           ICON          images\icon.ico
+
+IMG_CLOSE          IMAGE         images\Close.png
+IMG_MINIMIZE       IMAGE         images\Minimize.png
+IMG_MAXIMIZE       IMAGE         images\Maximize.png
+
+IMG_BUTTON_BACKGROUND IMAGE      images\ButtonBackground.png
+IMG_BUTTON_OVERLAY    IMAGE      images\ButtonOverlay.png
+IMG_ENTER_BUTTON      IMAGE      images\EnterButton.png
+IMG_BUTTON            IMAGE      images\GenericButton.png

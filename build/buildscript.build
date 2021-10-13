@@ -1,0 +1,11 @@
+Output:
+bin\HP11C.exe
+
+Source:
+.\src\*.cpp
+
+Manifest:
+manifest
+
+Resource:
+resource.rc
