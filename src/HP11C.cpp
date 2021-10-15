@@ -8,6 +8,8 @@ IWICImagingFactory* g_pWICFactory = nullptr;
 PCWSTR HKEY_PROJECT_TARGET = L"SOFTWARE\\BlueDragon\\HP11C";
 
 double stack[4] = {};
+wstring stackString;
+bool InEditMode = false;
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {

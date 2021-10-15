@@ -10,3 +10,6 @@ IMG_BUTTON_BACKGROUND IMAGE      images\ButtonBackground.png
 IMG_BUTTON_OVERLAY    IMAGE      images\ButtonOverlay.png
 IMG_ENTER_BUTTON      IMAGE      images\EnterButton.png
 IMG_BUTTON            IMAGE      images\GenericButton.png
+
+IMG_FBUTTON             IMAGE    images\fButton.png
+IMG_GBUTTON             IMAGE    images\gButton.png

@@ -36,53 +36,76 @@ void CreateMainWindow()
     vector<Window*> buttons;
 
     rc.Size({28, 28});
+    Rect buttonRect = rc;
     for (long x = 17; x < 450; x += 48)
     {
         for (long y = 109; y < 257; y += 49)
         {
-            Rect buttonRect = rc;
             buttonRect.Point({x, y});
 
             Window* pButton = Window::Create(buttonRect, WindowType_Layered, IMG_BUTTON, pMainWindow);
             pButton->SetWindowPos(HWND_TOP, buttonRect, 0);
 
             buttons.push_back(pButton);
-            pButton->OnClick(Key1Press);
         }
     }
 
     buttons[0]->OnClick(SqrtKeyPress);
 
+    // Numerical Keys
+    buttons[27]->OnClick(Key0Press);
+    buttons[31]->OnClick(KeyDecimalPress);
+    buttons[26]->OnClick(Key1Press);
+    buttons[30]->OnClick(Key2Press);
+    buttons[34]->OnClick(Key3Press);
+    buttons[25]->OnClick(Key4Press);
+    buttons[29]->OnClick(Key5Press);
+    buttons[33]->OnClick(Key6Press);
+    buttons[24]->OnClick(Key7Press);
+    buttons[28]->OnClick(Key8Press);
+    buttons[32]->OnClick(Key9Press);
+
+    // Operation Keys
+    buttons[39]->OnClick(PlusKeyPress);
+    buttons[38]->OnClick(MinusKeyPress);
+    buttons[37]->OnClick(TimesKeyPress);
+    buttons[36]->OnClick(DevideKeyPress);
+
+    // fix the F button
+    buttonRect = buttons[7]->GetRect();
+    DestroyWindow(buttons[7]->GetHWND());
+    buttons[7] = Window::Create(buttonRect, WindowType_Layered, IMG_FBUTTON, pMainWindow);
+
+    // fix the G button
+    buttonRect = buttons[11]->GetRect();
+    DestroyWindow(buttons[11]->GetHWND());
+    buttons[11] = Window::Create(buttonRect, WindowType_Layered, IMG_GBUTTON, pMainWindow);
+
+    // Fix the enter key
     DestroyWindow(buttons[22]->GetHWND());
     DestroyWindow(buttons[23]->GetHWND());
-
     rc.Point({257, 207});
     rc.Size({28, 77});
     buttons[22] = Window::Create(rc, WindowType_Layered, IMG_ENTER_BUTTON, pMainWindow);
+    buttons[22]->OnClick(EnterKeyPress);
     buttons[23] = buttons[22];
 
+    // add the button background
     rc.Size({488, 204});
     rc.Point({7, 94});
     pButtonBackground = Window::Create(rc, WindowType_Layered, IMG_BUTTON_BACKGROUND, pMainWindow);
     pButtonBackground->SetWindowPos(HWND_TOP, rc, 0);
     
+    // add the button overlay
     rc.Size({453, 185});
     rc.Point({12, 4});
     Window* pOverlay = Window::Create(rc, WindowType_Layered, IMG_BUTTON_OVERLAY, pButtonBackground);
 
+    // add the display
     rc.Size({254, 45});
     rc.Point({82, 21});
     pDisplayBox = new EditBox(rc, L"0.00", pTopBar->GetHWND(), ES_READONLY);
     pDisplayBox->SetWindowPos(HWND_TOP, rc, 0);
-
-    // rc.Size({73, 22});
-    // rc.Point({139, 143});
-    // Window* pCalculate = Window::Create(rc, WindowType_Layered, MW_CALCULATE, pMainWindow);
-    // pCalculate->SetWindowPos(HWND_TOP, rc, 0);
-    
-    // pMainWindow->OnCreate(MainWindowCreated);
-    // pCalculate->OnClick(CalculateDPI);
-    // pCaptureDPI->OnClick(GetMonitorDPI);
 }
 
 void MainWindowCreated(Window* pThis, WPARAM wParam, LPARAM lParam)
@@ -92,11 +115,12 @@ void MainWindowCreated(Window* pThis, WPARAM wParam, LPARAM lParam)
 
 void UpdateDisplay(void)
 {
-    WCHAR text[50] = {};
-    StringCchPrintf(
-        text, 
-        _countof(text), 
-        L"%.2f",
-        stack[0]);
-    pDisplayBox->SetText(text);
+    // WCHAR text[50] = {};
+    // StringCchPrintf(
+    //     text, 
+    //     _countof(text), 
+    //     L"%.2f",
+    //     stack[0]);
+    stack[0] = _wtof(stackString.c_str());
+    pDisplayBox->SetText(stackString);
 }

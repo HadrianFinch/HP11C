@@ -11,3 +11,5 @@
 #include "window.h"
 
 extern double stack[4];
+extern std::wstring stackString;
+extern bool InEditMode;

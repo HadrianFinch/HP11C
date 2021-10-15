@@ -8,3 +8,6 @@
 #define IMG_BUTTON_OVERLAY          6
 #define IMG_BUTTON                  7
 #define IMG_ENTER_BUTTON            8
+
+#define IMG_FBUTTON                 9
+#define IMG_GBUTTON                 10
