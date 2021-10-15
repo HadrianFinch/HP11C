@@ -7,6 +7,8 @@ HINSTANCE g_hInstance = NULL;
 IWICImagingFactory* g_pWICFactory = nullptr;
 PCWSTR HKEY_PROJECT_TARGET = L"SOFTWARE\\BlueDragon\\HP11C";
 
+double stack[4] = {};
+
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
     g_hInstance = hInstance;
