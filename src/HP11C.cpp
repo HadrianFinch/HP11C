@@ -33,6 +33,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         return HRESULT_CODE(hr);
     }
 
+    SetX(LoadDoubleFromRegister(L"Stack0", 0));
+    stack[1] = LoadDoubleFromRegister(L"Stack1", 0);
+    stack[2] = LoadDoubleFromRegister(L"Stack2", 0);
+    stack[3] = LoadDoubleFromRegister(L"Stack3", 0);
+
     CreateMainWindow();
     
     // spam that message loop
@@ -42,4 +47,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         TranslateMessage(&msg);        
         DispatchMessage(&msg);
     }
+
+    SaveDoubleToRegister(L"Stack0", stack[0]);
+    SaveDoubleToRegister(L"Stack1", stack[1]);
+    SaveDoubleToRegister(L"Stack2", stack[2]);
+    SaveDoubleToRegister(L"Stack3", stack[3]);
 }

@@ -1,6 +1,7 @@
 #include "framework.h"
 
 class Window;
+void SetX(double val);
 
 // Numerical Keys
 void Key0Press(Window* pThis, WPARAM wParam, LPARAM lParam);
@@ -25,5 +26,7 @@ void SqrtKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam);
 // Other keys
 void EnterKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam);
 void BackspaceKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam);
+void XYReverseKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam);
+void RollDown(Window* pThis, WPARAM wParam, LPARAM lParam);
 void FKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam);
 void GKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam);

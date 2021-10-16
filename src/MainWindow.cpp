@@ -73,6 +73,8 @@ void CreateMainWindow()
 
     // Other Keys
     buttons[18]->OnClick(BackspaceKeyPress);
+    buttons[14]->OnClick(XYReverseKeyPress);
+    buttons[10]->OnClick(RollDown);
 
     // fix the F button
     buttonRect = buttons[7]->GetRect();
@@ -109,7 +111,7 @@ void CreateMainWindow()
     // add the display
     rc.Size({254, 45});
     rc.Point({82, 21});
-    pDisplayBox = new EditBox(rc, L"0.00", pTopBar->GetHWND(), ES_READONLY);
+    pDisplayBox = new EditBox(rc, stackString, pTopBar->GetHWND(), ES_READONLY);
     pDisplayBox->SetWindowPos(HWND_TOP, rc, 0);
 }
 

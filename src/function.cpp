@@ -261,7 +261,12 @@ void EnterKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 
     if (stackString.find('.') == wstring::npos)
     {
-        stackString += L".00";
+        stackString += L".";
+        for (int i = 0; i < f_fix; i++)
+        {
+            stackString += L"0";
+        }
+        
     }
 
     UpdateDisplay();
@@ -278,6 +283,52 @@ void BackspaceKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
         SetX(stack[1]);
     }
     UpdateDisplay();
+}
+
+void XYReverseKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
+{
+    InEditMode = false;
+    double x = stack[0];
+    SetX(stack[1]);
+    stack[1] = x;
+
+    UpdateDisplay();
+}
+
+void RollDown(Window* pThis, WPARAM wParam, LPARAM lParam)
+{
+    if (FkeyActive) // Orange
+    {
+        FkeyActive = false;
+    }
+    else if (GkeyActive) // Blue
+    {
+        GkeyActive = false;
+        InEditMode = false;
+
+        double stored = stack[3];
+
+        stack[3] = stack[2];
+        stack[2] = stack[1];
+        stack[1] = stack[0];
+        SetX(stored);
+
+        UpdateDisplay();
+    }
+    else
+    {
+        InEditMode = false;
+
+        double x = stack[0];
+
+        SetX(stack[1]);
+
+        stack[1] = stack[2];
+        stack[2] = stack[3];
+        stack[3] = x;
+
+        UpdateDisplay();
+    }
 }
 
 void FKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
