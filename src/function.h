@@ -22,6 +22,7 @@ void MinusKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam);
 void TimesKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam);
 void DevideKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam);
 void SqrtKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam);
+void ChangeSignKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam);
 
 // Other keys
 void EnterKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam);

@@ -50,7 +50,6 @@ void CreateMainWindow()
         }
     }
 
-    buttons[0]->OnClick(SqrtKeyPress);
 
     // Numerical Keys
     buttons[27]->OnClick(Key0Press);
@@ -70,6 +69,8 @@ void CreateMainWindow()
     buttons[38]->OnClick(MinusKeyPress);
     buttons[37]->OnClick(TimesKeyPress);
     buttons[36]->OnClick(DevideKeyPress);
+    buttons[0]->OnClick(SqrtKeyPress);
+    buttons[20]->OnClick(ChangeSignKeyPress);
 
     // Other Keys
     buttons[18]->OnClick(BackspaceKeyPress);

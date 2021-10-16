@@ -250,6 +250,22 @@ void SqrtKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
     }
 }
 
+void ChangeSignKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
+{
+    if (stackString[0] != L'-')
+    {
+        wstring tempString = L"-";
+        tempString += stackString;
+        stackString = tempString;
+    }
+    else
+    {
+        stackString = stackString.substr(1, stackString.size());
+    }
+    
+    UpdateDisplay();
+}
+
 // Other Keys
 void EnterKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
