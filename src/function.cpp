@@ -257,7 +257,7 @@ void BackspaceKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 void FKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
     FkeyActive = true;
-    GkeyActive = false
+    GkeyActive = false;
 }
 
 void GKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
