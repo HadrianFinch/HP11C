@@ -54,7 +54,6 @@ void CreateMainWindow()
 
     // Numerical Keys
     buttons[27]->OnClick(Key0Press);
-    buttons[31]->OnClick(KeyDecimalPress);
     buttons[26]->OnClick(Key1Press);
     buttons[30]->OnClick(Key2Press);
     buttons[34]->OnClick(Key3Press);
@@ -64,6 +63,7 @@ void CreateMainWindow()
     buttons[24]->OnClick(Key7Press);
     buttons[28]->OnClick(Key8Press);
     buttons[32]->OnClick(Key9Press);
+    buttons[31]->OnClick(KeyDecimalPress);
 
     // Operation Keys
     buttons[39]->OnClick(PlusKeyPress);
@@ -71,15 +71,20 @@ void CreateMainWindow()
     buttons[37]->OnClick(TimesKeyPress);
     buttons[36]->OnClick(DevideKeyPress);
 
+    // Other Keys
+    buttons[18]->OnClick(BackspaceKeyPress);
+
     // fix the F button
     buttonRect = buttons[7]->GetRect();
     DestroyWindow(buttons[7]->GetHWND());
     buttons[7] = Window::Create(buttonRect, WindowType_Layered, IMG_FBUTTON, pMainWindow);
+    buttons[7]->OnClick(FKeyPress);
 
     // fix the G button
     buttonRect = buttons[11]->GetRect();
     DestroyWindow(buttons[11]->GetHWND());
     buttons[11] = Window::Create(buttonRect, WindowType_Layered, IMG_GBUTTON, pMainWindow);
+    buttons[11]->OnClick(GKeyPress);
 
     // Fix the enter key
     DestroyWindow(buttons[22]->GetHWND());
@@ -121,6 +126,7 @@ void UpdateDisplay(void)
     //     _countof(text), 
     //     L"%.2f",
     //     stack[0]);
+
     stack[0] = _wtof(stackString.c_str());
     pDisplayBox->SetText(stackString);
 }

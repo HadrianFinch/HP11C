@@ -128,23 +128,16 @@ void KeyDecimalPress(Window* pThis, WPARAM wParam, LPARAM lParam)
         InEditMode = true;
         stackString = L"";
     }
-    
-    stackString += '.';
-    UpdateDisplay();
+
+    bool alreadyUsed = (stackString.find('.') != wstring::npos);
+    if (!alreadyUsed)
+    {
+        stackString += '.';
+        UpdateDisplay();
+    }
 }
 
 // Operation Keys
-void EnterKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
-{
-    InEditMode = false;
-
-    stack[3] = stack[2];
-    stack[2] = stack[1];
-    stack[1] = stack[0];
-
-    UpdateDisplay();
-}
-
 void PlusKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
     InEditMode = false;
@@ -211,10 +204,64 @@ void DevideKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 
 void SqrtKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
+    if (FkeyActive) // Orange
+    {
+        FkeyActive = false;
+    }
+    else if (GkeyActive) // Blue
+    {
+        GkeyActive = false;
+        InEditMode = false;
+
+        double square = stack[0] * stack[0];
+        stackString = to_wstring(square);
+
+        UpdateDisplay();
+    }
+    else
+    {
+        InEditMode = false;
+
+        double root = sqrt(stack[0]);
+        stackString = to_wstring(root);
+
+        UpdateDisplay();
+    }
+}
+
+// Other Keys
+void EnterKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
+{
     InEditMode = false;
 
-    double root = sqrt(stack[0]);
-    stackString = to_wstring(root);
+    stack[3] = stack[2];
+    stack[2] = stack[1];
+    stack[1] = stack[0];
 
     UpdateDisplay();
+}
+
+void BackspaceKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
+{
+    if (stackString.size() > 1)
+    {
+        stackString = stackString.substr(0, stackString.size() - 1);
+    }
+    else
+    {
+        stackString = to_wstring(stack[1]);
+    }
+    UpdateDisplay();
+}
+
+void FKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
+{
+    FkeyActive = true;
+    GkeyActive = false
+}
+
+void GKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
+{
+    GkeyActive = true;
+    FkeyActive = false;
 }

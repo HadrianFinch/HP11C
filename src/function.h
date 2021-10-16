@@ -16,10 +16,14 @@ void Key9Press(Window* pThis, WPARAM wParam, LPARAM lParam);
 void KeyDecimalPress(Window* pThis, WPARAM wParam, LPARAM lParam);
 
 // Operataion Keys
-void EnterKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam);
 void PlusKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam);
 void MinusKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam);
 void TimesKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam);
 void DevideKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam);
-
 void SqrtKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam);
+
+// Other keys
+void EnterKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam);
+void BackspaceKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam);
+void FKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam);
+void GKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam);

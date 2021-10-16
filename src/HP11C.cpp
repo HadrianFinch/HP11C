@@ -11,6 +11,9 @@ double stack[4] = {};
 wstring stackString;
 bool InEditMode = false;
 
+bool FkeyActive = false;
+bool GkeyActive = false;
+
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
     g_hInstance = hInstance;
