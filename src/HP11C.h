@@ -16,3 +16,5 @@ extern bool InEditMode;
 
 extern bool FkeyActive;
 extern bool GkeyActive;
+
+extern int f_fix;

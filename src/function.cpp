@@ -1,5 +1,26 @@
 #include "framework.h"
 #include "HP11C.h"
+
+void SetX(double val)
+{
+    WCHAR formatSeed[10] = L"%.";
+    WCHAR formatString[10] = {};
+    StringCchPrintf(
+        formatString,
+        _countof(formatString),
+        L"%s%df",
+        formatSeed,
+        f_fix);
+
+    WCHAR text[80] = {};
+    StringCchPrintf(
+        text,
+        _countof(text),
+        formatString,
+        val);
+    stackString = text;
+}
+
 // Numerical Keys
 void Key0Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
@@ -145,7 +166,7 @@ void PlusKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
     double x = stack[0];
     double y = stack[1];
 
-    stackString = to_wstring(y + x);
+    SetX(y + x);
 
     stack[1] = stack[2];
     stack[2] = stack[3];
@@ -161,7 +182,7 @@ void MinusKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
     double x = stack[0];
     double y = stack[1];
 
-    stackString = to_wstring(y - x);
+    SetX(y - x);
 
     stack[1] = stack[2];
     stack[2] = stack[3];
@@ -177,7 +198,7 @@ void TimesKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
     double x = stack[0];
     double y = stack[1];
 
-    stackString = to_wstring(y * x);
+    SetX(y * x);
 
     stack[1] = stack[2];
     stack[2] = stack[3];
@@ -193,7 +214,7 @@ void DevideKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
     double x = stack[0];
     double y = stack[1];
 
-    stackString = to_wstring(y / x);
+    SetX(y / x);
 
     stack[1] = stack[2];
     stack[2] = stack[3];
@@ -214,7 +235,7 @@ void SqrtKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
         InEditMode = false;
 
         double square = stack[0] * stack[0];
-        stackString = to_wstring(square);
+        SetX(square);
 
         UpdateDisplay();
     }
@@ -223,7 +244,7 @@ void SqrtKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
         InEditMode = false;
 
         double root = sqrt(stack[0]);
-        stackString = to_wstring(root);
+        SetX(root);
 
         UpdateDisplay();
     }
@@ -238,6 +259,11 @@ void EnterKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
     stack[2] = stack[1];
     stack[1] = stack[0];
 
+    if (stackString.find('.') == wstring::npos)
+    {
+        stackString += L".00";
+    }
+
     UpdateDisplay();
 }
 
@@ -249,7 +275,7 @@ void BackspaceKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
     }
     else
     {
-        stackString = to_wstring(stack[1]);
+        SetX(stack[1]);
     }
     UpdateDisplay();
 }

@@ -14,6 +14,8 @@ bool InEditMode = false;
 bool FkeyActive = false;
 bool GkeyActive = false;
 
+int f_fix = 2;
+
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
     g_hInstance = hInstance;
