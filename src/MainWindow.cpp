@@ -4,6 +4,7 @@
 void MainWindowCreated(Window* pThis, WPARAM wParam, LPARAM lParam);
 void CalculateDPI(Window* pThis, WPARAM wParam, LPARAM lParam);
 void GetMonitorDPI(Window* pThis, WPARAM wParam, LPARAM lParam);
+void KeyboardInputController(Window* pThis, WPARAM wParam, LPARAM lParam);
 
 EditBox* pDisplayBox;
 EditBox* pHeightInches;
@@ -19,6 +20,7 @@ void CreateMainWindow()
 
     Window* pMainWindow = Window::Create(rc, 0x001c1713);
     pMainWindow->SetTitle(L"HP 11C Calculator");
+    pMainWindow->OnKeyPress(KeyboardInputController);
 
     rc.Height(88);
     rc.Width(484);
@@ -120,6 +122,85 @@ void CreateMainWindow()
 void MainWindowCreated(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
     pThis->SetWindowPos(NULL, pThis->GetRect(), 0);
+}
+
+void KeyboardInputController(Window* pThis, WPARAM keycode, LPARAM lParam)
+{
+    switch (keycode)
+    {
+        // Numerical Keys
+        case 0x30: // 0 Key
+            Key0Press(nullptr, 0, 0);
+        break;
+        
+        case 0x31: // 1 Key
+            Key1Press(nullptr, 0, 0);
+        break;
+        
+        case 0x32: // 2 Key
+            Key2Press(nullptr, 0, 0);
+        break;
+        
+        case 0x33: // 3 Key
+            Key3Press(nullptr, 0, 0);
+        break;
+        
+        case 0x34: // 4 Key
+            Key4Press(nullptr, 0, 0);
+        break;
+        
+        case 0x35: // 5 Key
+            Key5Press(nullptr, 0, 0);
+        break;
+        
+        case 0x36: // 6 Key
+            Key6Press(nullptr, 0, 0);
+        break;
+        
+        case 0x37: // 7 Key
+            Key7Press(nullptr, 0, 0);
+        break;
+        
+        case 0x38: // 8 Key or * key with shift
+        {
+            short keyState = GetKeyState(VK_SHIFT);
+            if (keyState != 0)
+            {
+                TimesKeyPress(nullptr, 0, 0);
+            }
+            else
+            {
+                Key8Press(nullptr, 0, 0);
+            }            
+        }
+        break;
+        
+        case 0x39: // 9 Key
+            Key9Press(nullptr, 0, 0);
+        break;
+        
+        case VK_OEM_PERIOD: // . Key
+            KeyDecimalPress(nullptr, 0, 0);
+        break;
+
+        // Operation Keys
+        case VK_OEM_PLUS: // + Key
+            PlusKeyPress(nullptr, 0, 0);
+        break;
+
+        case VK_OEM_MINUS: // - Key
+            MinusKeyPress(nullptr, 0, 0);
+        break;
+
+        case VK_OEM_2: // / Key
+            DevideKeyPress(nullptr, 0, 0);
+        break;
+
+        // Other Keys
+        case VK_RETURN: // enter Key
+            EnterKeyPress(nullptr, 0, 0);
+        break;
+    }    
 }
 
 void UpdateDisplay(void)

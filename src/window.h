@@ -45,6 +45,7 @@ protected:
     PFN_wndFunc m_WMLBUTTONUP = nullptr;
     PFN_wndFunc m_WMMOUSEMOVE = nullptr;
     PFN_wndFunc m_WMNCHITTEST = nullptr;
+    PFN_wndFunc m_WMKEYUP = nullptr;
 
 protected:
     bool Call(PFN_wndFunc pfnFunc, WPARAM wParam, LPARAM lParam)
@@ -177,10 +178,10 @@ public:
     {
         m_WMCREATE = func;
     }
-    // void OnWMNCHITTEST(PFN_wndFunc func)
-    // {
-    //     m_WMMAXMINSIZE = func;
-    // }
+    void OnKeyPress(PFN_wndFunc func)
+    {
+        m_WMKEYUP = func;
+    }
 
     void Disable()
     {

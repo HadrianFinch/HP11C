@@ -448,6 +448,11 @@ LRESULT Window::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
         }
         return HTCLIENT;
     }
+    else if (msg == WM_KEYUP)
+    {
+        Call(m_WMKEYUP, wParam, lParam);
+        return 0;
+    }
 
     return DefWindowProc(m_hwnd, msg, wParam, lParam);
 }
