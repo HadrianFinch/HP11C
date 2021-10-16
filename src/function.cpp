@@ -21,14 +21,38 @@ void SetX(double val)
     stackString = text;
 }
 
+void EnterEditMode()
+{
+    if (!inEditMode)
+    {
+        inEditMode = true;
+        stackString = L"";
+        if (shiftStackOnEditMode)
+        {
+            stack[3] = stack[2];
+            stack[2] = stack[1];
+            stack[1] = stack[0];
+        }
+        else
+        {
+            shiftStackOnEditMode = true;
+        }
+    }
+}
+
+void ExitEditMode()
+{
+    shiftStackOnEditMode = true;
+    if (inEditMode)
+    {
+        inEditMode = false;
+    }
+}
+
 // Numerical Keys
 void Key0Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    if (!InEditMode)
-    {
-        InEditMode = true;
-        stackString = L"";
-    }
+    EnterEditMode();
     
     stackString += '0';
     UpdateDisplay();
@@ -36,11 +60,7 @@ void Key0Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 
 void Key1Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    if (!InEditMode)
-    {
-        InEditMode = true;
-        stackString = L"";
-    }
+    EnterEditMode();
     
     stackString += '1';
     UpdateDisplay();
@@ -48,11 +68,7 @@ void Key1Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 
 void Key2Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    if (!InEditMode)
-    {
-        InEditMode = true;
-        stackString = L"";
-    }
+    EnterEditMode();
     
     stackString += '2';
     UpdateDisplay();
@@ -60,11 +76,7 @@ void Key2Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 
 void Key3Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    if (!InEditMode)
-    {
-        InEditMode = true;
-        stackString = L"";
-    }
+    EnterEditMode();
     
     stackString += '3';
     UpdateDisplay();
@@ -72,11 +84,7 @@ void Key3Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 
 void Key4Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    if (!InEditMode)
-    {
-        InEditMode = true;
-        stackString = L"";
-    }
+    EnterEditMode();
     
     stackString += '4';
     UpdateDisplay();
@@ -84,11 +92,7 @@ void Key4Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 
 void Key5Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    if (!InEditMode)
-    {
-        InEditMode = true;
-        stackString = L"";
-    }
+    EnterEditMode();
     
     stackString += '5';
     UpdateDisplay();
@@ -96,11 +100,7 @@ void Key5Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 
 void Key6Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    if (!InEditMode)
-    {
-        InEditMode = true;
-        stackString = L"";
-    }
+    EnterEditMode();
     
     stackString += '6';
     UpdateDisplay();
@@ -108,11 +108,7 @@ void Key6Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 
 void Key7Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    if (!InEditMode)
-    {
-        InEditMode = true;
-        stackString = L"";
-    }
+    EnterEditMode();
     
     stackString += '7';
     UpdateDisplay();
@@ -120,11 +116,7 @@ void Key7Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 
 void Key8Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    if (!InEditMode)
-    {
-        InEditMode = true;
-        stackString = L"";
-    }
+    EnterEditMode();
     
     stackString += '8';
     UpdateDisplay();
@@ -132,11 +124,7 @@ void Key8Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 
 void Key9Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    if (!InEditMode)
-    {
-        InEditMode = true;
-        stackString = L"";
-    }
+    EnterEditMode();
     
     stackString += '9';
     UpdateDisplay();
@@ -144,11 +132,7 @@ void Key9Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 
 void KeyDecimalPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    if (!InEditMode)
-    {
-        InEditMode = true;
-        stackString = L"";
-    }
+    EnterEditMode();
 
     bool alreadyUsed = (stackString.find('.') != wstring::npos);
     if (!alreadyUsed)
@@ -161,7 +145,7 @@ void KeyDecimalPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 // Operation Keys
 void PlusKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    InEditMode = false;
+    ExitEditMode();
     
     double x = stack[0];
     double y = stack[1];
@@ -177,7 +161,7 @@ void PlusKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 
 void MinusKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    InEditMode = false;
+    ExitEditMode();
     
     double x = stack[0];
     double y = stack[1];
@@ -193,7 +177,7 @@ void MinusKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 
 void TimesKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    InEditMode = false;
+    ExitEditMode();
     
     double x = stack[0];
     double y = stack[1];
@@ -209,7 +193,7 @@ void TimesKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 
 void DevideKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    InEditMode = false;
+    ExitEditMode();
     
     double x = stack[0];
     double y = stack[1];
@@ -225,6 +209,7 @@ void DevideKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 
 void SqrtKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
+    EnterKeyPress(nullptr, 0, 0);
     if (FkeyActive) // Orange
     {
         FkeyActive = false;
@@ -232,7 +217,7 @@ void SqrtKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
     else if (GkeyActive) // Blue
     {
         GkeyActive = false;
-        InEditMode = false;
+        ExitEditMode();
 
         double square = stack[0] * stack[0];
         SetX(square);
@@ -241,7 +226,7 @@ void SqrtKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
     }
     else
     {
-        InEditMode = false;
+        ExitEditMode();
 
         double root = sqrt(stack[0]);
         SetX(root);
@@ -262,14 +247,22 @@ void ChangeSignKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
     {
         stackString = stackString.substr(1, stackString.size());
     }
-    
+
     UpdateDisplay();
 }
+
+void OneOverX(Window* pThis, WPARAM wParam, LPARAM lParam)
+{
+    ExitEditMode();
+    SetX(1 / stack[0]);
+    UpdateDisplay();
+}
+
 
 // Other Keys
 void EnterKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    InEditMode = false;
+    ExitEditMode();
 
     stack[3] = stack[2];
     stack[2] = stack[1];
@@ -284,6 +277,8 @@ void EnterKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
         }
         
     }
+
+    shiftStackOnEditMode = false;
 
     UpdateDisplay();
 }
@@ -303,7 +298,7 @@ void BackspaceKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 
 void XYReverseKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    InEditMode = false;
+    ExitEditMode();
     double x = stack[0];
     SetX(stack[1]);
     stack[1] = x;
@@ -320,7 +315,7 @@ void RollDown(Window* pThis, WPARAM wParam, LPARAM lParam)
     else if (GkeyActive) // Blue
     {
         GkeyActive = false;
-        InEditMode = false;
+        ExitEditMode();
 
         double stored = stack[3];
 
@@ -333,7 +328,7 @@ void RollDown(Window* pThis, WPARAM wParam, LPARAM lParam)
     }
     else
     {
-        InEditMode = false;
+        ExitEditMode();
 
         double x = stack[0];
 

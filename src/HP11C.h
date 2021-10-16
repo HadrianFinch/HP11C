@@ -11,9 +11,11 @@
 
 extern double stack[4];
 extern std::wstring stackString;
-extern bool InEditMode;
+extern bool inEditMode;
 
 extern bool FkeyActive;
 extern bool GkeyActive;
 
 extern int f_fix;
+
+extern bool shiftStackOnEditMode;

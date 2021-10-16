@@ -9,12 +9,14 @@ PCWSTR HKEY_PROJECT_TARGET = L"SOFTWARE\\BlueDragon\\HP11C";
 
 double stack[4] = {};
 wstring stackString;
-bool InEditMode = false;
+bool inEditMode = false;
 
 bool FkeyActive = false;
 bool GkeyActive = false;
 
 int f_fix = 2;
+
+bool shiftStackOnEditMode = true;
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {

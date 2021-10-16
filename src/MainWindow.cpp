@@ -71,6 +71,7 @@ void CreateMainWindow()
     buttons[36]->OnClick(DevideKeyPress);
     buttons[0]->OnClick(SqrtKeyPress);
     buttons[20]->OnClick(ChangeSignKeyPress);
+    buttons[16]->OnClick(OneOverX);
 
     // Other Keys
     buttons[18]->OnClick(BackspaceKeyPress);
