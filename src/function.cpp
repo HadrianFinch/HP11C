@@ -3,6 +3,10 @@
 
 void SetX(long double val)
 {
+    // Update the stack
+    stack[0] = val;
+
+    // Update the stackString
     WCHAR formatSeed[10] = L"%.";
     WCHAR formatString[10] = {};
     StringCchPrintf(
@@ -19,6 +23,11 @@ void SetX(long double val)
         formatString,
         val);
     stackString = text;
+}
+
+void StackStringToStack0()
+{
+    stack[0] = _wtof(stackString.c_str());
 }
 
 void EnterEditMode()
@@ -55,6 +64,7 @@ void Key0Press(Window* pThis, WPARAM wParam, LPARAM lParam)
     EnterEditMode();
     
     stackString += '0';
+    StackStringToStack0();
     UpdateDisplay();
 }
 
@@ -63,6 +73,7 @@ void Key1Press(Window* pThis, WPARAM wParam, LPARAM lParam)
     EnterEditMode();
     
     stackString += '1';
+    StackStringToStack0();
     UpdateDisplay();
 }
 
@@ -71,6 +82,7 @@ void Key2Press(Window* pThis, WPARAM wParam, LPARAM lParam)
     EnterEditMode();
     
     stackString += '2';
+    StackStringToStack0();
     UpdateDisplay();
 }
 
@@ -79,6 +91,7 @@ void Key3Press(Window* pThis, WPARAM wParam, LPARAM lParam)
     EnterEditMode();
     
     stackString += '3';
+    StackStringToStack0();
     UpdateDisplay();
 }
 
@@ -87,6 +100,7 @@ void Key4Press(Window* pThis, WPARAM wParam, LPARAM lParam)
     EnterEditMode();
     
     stackString += '4';
+    StackStringToStack0();
     UpdateDisplay();
 }
 
@@ -95,6 +109,7 @@ void Key5Press(Window* pThis, WPARAM wParam, LPARAM lParam)
     EnterEditMode();
     
     stackString += '5';
+    StackStringToStack0();
     UpdateDisplay();
 }
 
@@ -103,6 +118,7 @@ void Key6Press(Window* pThis, WPARAM wParam, LPARAM lParam)
     EnterEditMode();
     
     stackString += '6';
+    StackStringToStack0();
     UpdateDisplay();
 }
 
@@ -111,6 +127,7 @@ void Key7Press(Window* pThis, WPARAM wParam, LPARAM lParam)
     EnterEditMode();
     
     stackString += '7';
+    StackStringToStack0();
     UpdateDisplay();
 }
 
@@ -119,6 +136,7 @@ void Key8Press(Window* pThis, WPARAM wParam, LPARAM lParam)
     EnterEditMode();
     
     stackString += '8';
+    StackStringToStack0();
     UpdateDisplay();
 }
 
@@ -127,6 +145,7 @@ void Key9Press(Window* pThis, WPARAM wParam, LPARAM lParam)
     EnterEditMode();
     
     stackString += '9';
+    StackStringToStack0();
     UpdateDisplay();
 }
 
@@ -138,6 +157,7 @@ void KeyDecimalPress(Window* pThis, WPARAM wParam, LPARAM lParam)
     if (!alreadyUsed)
     {
         stackString += '.';
+        StackStringToStack0();
         UpdateDisplay();
     }
 }

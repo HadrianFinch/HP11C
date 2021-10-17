@@ -206,6 +206,6 @@ void KeyboardInputController(Window* pThis, WPARAM keycode, LPARAM lParam)
 
 void UpdateDisplay(void)
 {
-    stack[0] = _wtof(stackString.c_str());
+    // stack[0] = _wtof(stackString.c_str()); // Moved to SetX()
     pDisplayBox->SetText(stackString);
 }
