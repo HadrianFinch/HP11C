@@ -18,4 +18,6 @@ extern bool GkeyActive;
 
 extern int f_fix;
 
+extern long double f_pi;
+
 extern bool shiftStackOnEditMode;

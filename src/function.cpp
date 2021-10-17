@@ -261,17 +261,30 @@ void YtotheX(Window* pThis, WPARAM wParam, LPARAM lParam)
 
 void ChangeSignKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    if (stackString[0] != L'-')
+    if (FkeyActive) // Orange
     {
-        wstring tempString = L"-";
-        tempString += stackString;
-        stackString = tempString;
+        FkeyActive = false;
+        ExitEditMode();
+        SetX(f_pi);
+    }
+    else if (GkeyActive) // Blue
+    {
+        GkeyActive = false;
+        return;
     }
     else
     {
-        stackString = stackString.substr(1, stackString.size());
+        if (stackString[0] != L'-')
+        {
+            wstring tempString = L"-";
+            tempString += stackString;
+            stackString = tempString;
+        }
+        else
+        {
+            stackString = stackString.substr(1, stackString.size());
+        }
     }
-
     UpdateDisplay();
 }
 
@@ -333,6 +346,7 @@ void BackspaceKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
     }
     else
     {
+        ExitEditMode();
         SetX(stack[1]);
     }
     UpdateDisplay();
