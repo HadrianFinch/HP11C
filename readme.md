@@ -6,7 +6,7 @@ HP11C is a calculator app for windows that uses Reverse Polish Notation for calc
 
 ## Installation
 
-Download the [latest GitHub release](https://github.com/HadrianFinch/HP11C/releases) and run the installer, or download the standalone .exe from [here](https://github.com/HadrianFinch/HP11C/raw/master/bin/HP11C.exe)
+Download the [latest GitHub release](https://github.com/HadrianFinch/HP11C/releases) and run the installer, or download the standalone .exe from [here](https://github.com/HadrianFinch/HP11C/releases)
 
 ## Usage
 Launch the app from the Start menu or type `hpcalc` in a command prompt or Run window. Or, if you have the standalone, run the.exe by double-clicking it.
