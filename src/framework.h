@@ -35,6 +35,7 @@
 #include <shobjidl.h>
 #include <commdlg.h>
 #include <tchar.h>
+#include <math.h>
 
 #include "rect.h"
 

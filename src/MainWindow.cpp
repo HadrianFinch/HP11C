@@ -74,6 +74,7 @@ void CreateMainWindow()
     buttons[0]->OnClick(SqrtKeyPress);
     buttons[20]->OnClick(ChangeSignKeyPress);
     buttons[16]->OnClick(OneOverX);
+    buttons[12]->OnClick(YtotheX);
 
     // Other Keys
     buttons[18]->OnClick(BackspaceKeyPress);
@@ -199,6 +200,10 @@ void KeyboardInputController(Window* pThis, WPARAM keycode, LPARAM lParam)
         // Other Keys
         case VK_RETURN: // enter Key
             EnterKeyPress(nullptr, 0, 0);
+        break;
+
+        case VK_BACK: // enter Key
+            BackspaceKeyPress(nullptr, 0, 0);
         break;
     }    
 }

@@ -209,7 +209,6 @@ void DevideKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 
 void SqrtKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    EnterKeyPress(nullptr, 0, 0);
     if (FkeyActive) // Orange
     {
         FkeyActive = false;
@@ -230,6 +229,31 @@ void SqrtKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 
         double root = sqrt(stack[0]);
         SetX(root);
+
+        UpdateDisplay();
+    }
+}
+
+void YtotheX(Window* pThis, WPARAM wParam, LPARAM lParam)
+{
+    ExitEditMode();
+    if (FkeyActive) // Orange
+    {
+        FkeyActive = false;
+    }
+    else if (GkeyActive) // Blue
+    {
+        GkeyActive = false;
+
+        double precent = stack[0] / 100;
+        SetX(precent);
+
+        UpdateDisplay();
+    }
+    else
+    {
+        double result = pow(stack[1], stack[0]);
+        SetX(result);
 
         UpdateDisplay();
     }
