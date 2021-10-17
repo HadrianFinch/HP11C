@@ -1,7 +1,7 @@
 #include "framework.h"
 #include "HP11C.h"
 
-void SetX(double val)
+void SetX(long double val)
 {
     WCHAR formatSeed[10] = L"%.";
     WCHAR formatString[10] = {};
@@ -147,8 +147,8 @@ void PlusKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
     ExitEditMode();
     
-    double x = stack[0];
-    double y = stack[1];
+    long double x = stack[0];
+    long double y = stack[1];
 
     SetX(y + x);
 
@@ -163,8 +163,8 @@ void MinusKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
     ExitEditMode();
     
-    double x = stack[0];
-    double y = stack[1];
+    long double x = stack[0];
+    long double y = stack[1];
 
     SetX(y - x);
 
@@ -179,8 +179,8 @@ void TimesKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
     ExitEditMode();
     
-    double x = stack[0];
-    double y = stack[1];
+    long double x = stack[0];
+    long double y = stack[1];
 
     SetX(y * x);
 
@@ -195,8 +195,8 @@ void DevideKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
     ExitEditMode();
     
-    double x = stack[0];
-    double y = stack[1];
+    long double x = stack[0];
+    long double y = stack[1];
 
     SetX(y / x);
 
@@ -218,7 +218,7 @@ void SqrtKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
         GkeyActive = false;
         ExitEditMode();
 
-        double square = stack[0] * stack[0];
+        long double square = stack[0] * stack[0];
         SetX(square);
 
         UpdateDisplay();
@@ -227,7 +227,7 @@ void SqrtKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
     {
         ExitEditMode();
 
-        double root = sqrt(stack[0]);
+        long double root = sqrt(stack[0]);
         SetX(root);
 
         UpdateDisplay();
@@ -245,14 +245,14 @@ void YtotheX(Window* pThis, WPARAM wParam, LPARAM lParam)
     {
         GkeyActive = false;
 
-        double precent = stack[0] / 100;
+        long double precent = stack[0] / 100;
         SetX(precent);
 
         UpdateDisplay();
     }
     else
     {
-        double result = pow(stack[1], stack[0]);
+        long double result = pow(stack[1], stack[0]);
         SetX(result);
 
         UpdateDisplay();
@@ -275,6 +275,13 @@ void ChangeSignKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
     UpdateDisplay();
 }
 
+void TenTotheX(Window* pThis, WPARAM wParam, LPARAM lParam)
+{
+    ExitEditMode();
+    SetX(pow(10.0, stack[0]));
+    UpdateDisplay();
+}
+
 void OneOverX(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
     ExitEditMode();
@@ -287,24 +294,35 @@ void OneOverX(Window* pThis, WPARAM wParam, LPARAM lParam)
 void EnterKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
     ExitEditMode();
-
-    stack[3] = stack[2];
-    stack[2] = stack[1];
-    stack[1] = stack[0];
-
-    if (stackString.find('.') == wstring::npos)
+    if (FkeyActive) // Orange
     {
-        stackString += L".";
-        for (int i = 0; i < f_fix; i++)
-        {
-            stackString += L"0";
-        }
-        
+        FkeyActive = false;
+        SetX((long double)rand() / (long double)RAND_MAX);
+        UpdateDisplay();
     }
+    else if (GkeyActive) // Blue
+    {
+        GkeyActive = false;
+    }
+    else
+    {
+        stack[3] = stack[2];
+        stack[2] = stack[1];
+        stack[1] = stack[0];
 
-    shiftStackOnEditMode = false;
+        if (stackString.find('.') == wstring::npos)
+        {
+            stackString += L".";
+            for (int i = 0; i < f_fix; i++)
+            {
+                stackString += L"0";
+            }        
+        }
 
-    UpdateDisplay();
+        shiftStackOnEditMode = false;
+
+        UpdateDisplay();
+    }
 }
 
 void BackspaceKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
@@ -323,7 +341,7 @@ void BackspaceKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 void XYReverseKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
     ExitEditMode();
-    double x = stack[0];
+    long double x = stack[0];
     SetX(stack[1]);
     stack[1] = x;
 
@@ -341,7 +359,7 @@ void RollDown(Window* pThis, WPARAM wParam, LPARAM lParam)
         GkeyActive = false;
         ExitEditMode();
 
-        double stored = stack[3];
+        long double stored = stack[3];
 
         stack[3] = stack[2];
         stack[2] = stack[1];
@@ -354,7 +372,7 @@ void RollDown(Window* pThis, WPARAM wParam, LPARAM lParam)
     {
         ExitEditMode();
 
-        double x = stack[0];
+        long double x = stack[0];
 
         SetX(stack[1]);
 

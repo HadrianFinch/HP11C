@@ -7,12 +7,7 @@ void GetMonitorDPI(Window* pThis, WPARAM wParam, LPARAM lParam);
 void KeyboardInputController(Window* pThis, WPARAM wParam, LPARAM lParam);
 
 EditBox* pDisplayBox;
-EditBox* pHeightInches;
-EditBox* pWidthPixels;
-EditBox* pHeightPixels;
-
 Window* pButtonBackground;
-EditBox* pDPIBox;
 
 void CreateMainWindow()
 {
@@ -75,6 +70,7 @@ void CreateMainWindow()
     buttons[20]->OnClick(ChangeSignKeyPress);
     buttons[16]->OnClick(OneOverX);
     buttons[12]->OnClick(YtotheX);
+    buttons[8]->OnClick(TenTotheX);
 
     // Other Keys
     buttons[18]->OnClick(BackspaceKeyPress);
@@ -105,7 +101,7 @@ void CreateMainWindow()
     // add the button background
     rc.Size({488, 204});
     rc.Point({7, 94});
-    pButtonBackground = Window::Create(rc, WindowType_Layered, IMG_BUTTON_BACKGROUND, pMainWindow);
+    Window* pButtonBackground = Window::Create(rc, WindowType_Layered, IMG_BUTTON_BACKGROUND, pMainWindow);
     pButtonBackground->SetWindowPos(HWND_TOP, rc, 0);
     
     // add the button overlay
@@ -210,13 +206,6 @@ void KeyboardInputController(Window* pThis, WPARAM keycode, LPARAM lParam)
 
 void UpdateDisplay(void)
 {
-    // WCHAR text[50] = {};
-    // StringCchPrintf(
-    //     text, 
-    //     _countof(text), 
-    //     L"%.2f",
-    //     stack[0]);
-
     stack[0] = _wtof(stackString.c_str());
     pDisplayBox->SetText(stackString);
 }

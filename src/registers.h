@@ -2,5 +2,5 @@ PCWSTR LoadStringFromRegister(PCWSTR registerName, PCWSTR defaultValue);
 HRESULT SaveStringToRegister(PCWSTR registerName, PCWSTR dataToSave);
 long LoadlongFromRegister(PCWSTR registerName, long defaultValue);
 HRESULT SaveLongToRegister(PCWSTR registerName, long dataToSave);
-double LoadDoubleFromRegister(PCWSTR registerName, double defaultValue);
-HRESULT SaveDoubleToRegister(PCWSTR registerName, double dataToSave);
+long double LoadlongdoubleFromRegister(PCWSTR registerName, long double defaultValue);
+HRESULT SavelongdoubleToRegister(PCWSTR registerName, long double dataToSave);

@@ -7,7 +7,7 @@ HINSTANCE g_hInstance = NULL;
 IWICImagingFactory* g_pWICFactory = nullptr;
 PCWSTR HKEY_PROJECT_TARGET = L"SOFTWARE\\BlueDragon\\HP11C";
 
-double stack[4] = {};
+long double stack[4] = {};
 wstring stackString;
 bool inEditMode = false;
 
@@ -35,10 +35,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         return HRESULT_CODE(hr);
     }
 
-    SetX(LoadDoubleFromRegister(L"Stack0", 0));
-    stack[1] = LoadDoubleFromRegister(L"Stack1", 0);
-    stack[2] = LoadDoubleFromRegister(L"Stack2", 0);
-    stack[3] = LoadDoubleFromRegister(L"Stack3", 0);
+    SetX(LoadlongdoubleFromRegister(L"Stack0", 0));
+    stack[1] = LoadlongdoubleFromRegister(L"Stack1", 0);
+    stack[2] = LoadlongdoubleFromRegister(L"Stack2", 0);
+    stack[3] = LoadlongdoubleFromRegister(L"Stack3", 0);
 
     CreateMainWindow();
     
@@ -50,8 +50,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         DispatchMessage(&msg);
     }
 
-    SaveDoubleToRegister(L"Stack0", stack[0]);
-    SaveDoubleToRegister(L"Stack1", stack[1]);
-    SaveDoubleToRegister(L"Stack2", stack[2]);
-    SaveDoubleToRegister(L"Stack3", stack[3]);
+    SavelongdoubleToRegister(L"Stack0", stack[0]);
+    SavelongdoubleToRegister(L"Stack1", stack[1]);
+    SavelongdoubleToRegister(L"Stack2", stack[2]);
+    SavelongdoubleToRegister(L"Stack3", stack[3]);
 }

@@ -173,7 +173,7 @@ HRESULT SaveLongToRegister(PCWSTR registerName, long dataToSave)
     return S_OK;
 }
 
-HRESULT SaveDoubleToRegister(PCWSTR registerName, double dataToSave)
+HRESULT SavelongdoubleToRegister(PCWSTR registerName, long double dataToSave)
 {
     HKEY hkey = NULL;
     auto result = RegCreateKeyEx(
@@ -194,7 +194,7 @@ HRESULT SaveDoubleToRegister(PCWSTR registerName, double dataToSave)
             0,
             REG_BINARY,
             reinterpret_cast<LPBYTE>(&dataToSave),
-            sizeof(double));
+            sizeof(long double));
     }
 
     if (hkey != NULL)
@@ -209,12 +209,12 @@ HRESULT SaveDoubleToRegister(PCWSTR registerName, double dataToSave)
     return S_OK;
 }
 
-double LoadDoubleFromRegister(PCWSTR registerName, double defaultValue)
+long double LoadlongdoubleFromRegister(PCWSTR registerName, long double defaultValue)
 {
     HKEY hkey = NULL;
     bool loaded = false;
 
-    double output = 0;
+    long double output = 0;
 
     auto result = RegOpenKeyEx(
         HKEY_CURRENT_USER,
@@ -225,7 +225,7 @@ double LoadDoubleFromRegister(PCWSTR registerName, double defaultValue)
     if (result == ERROR_SUCCESS)
     {
         DWORD dwType;
-        DWORD cbData = sizeof(double);
+        DWORD cbData = sizeof(long double);
 
         result = RegQueryValueEx(
             hkey,
