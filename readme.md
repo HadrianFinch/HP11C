@@ -1,6 +1,6 @@
 # HP11C Calculator
 ![Build Shield](https://img.shields.io/badge/Build-Succeeding-sucess)
-![Downloads Shield](https://img.shields.io/github/downloads/hadrianfinch/hp11c/total?label=Downloads)
+![Download Shield](https://img.shields.io/github/downloads/hadrianfinch/hp11c/total?label=Downloads)
 
 HP11C is a calculator app for windows that uses Reverse Polish Notation for calculations.
 
