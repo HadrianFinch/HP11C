@@ -294,16 +294,7 @@ void ChangeSignKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
     }
     else
     {
-        if (stackString[0] != L'-')
-        {
-            wstring tempString = L"-";
-            tempString += stackString;
-            stackString = tempString;
-        }
-        else
-        {
-            stackString = stackString.substr(1, stackString.size());
-        }
+        SetX(-1 * stack[0]);
     }
     UpdateDisplay();
 }
