@@ -111,11 +111,59 @@ void CreateMainWindow()
     rc.Point({12, 4});
     Window* pOverlay = Window::Create(rc, WindowType_Layered, IMG_BUTTON_OVERLAY, pButtonBackground);
 
-    // add the display
-    rc.Size({254, 45});
+    // Add the display Container
+    rc.Size({260, 45});
     rc.Point({82, 21});
-    pDisplayBox = new EditBox(rc, stackString, pTopBar->GetHWND(), ES_READONLY);
+    Window* pDisplayBackground = Window::Create(rc, 0x005d553f, pTopBar);
+
+    // add the display
+    rc.Size({235, 22});
+    rc.Point({14, 12});
+    pDisplayBox = new EditBox(rc, stackString, pDisplayBackground->GetHWND(), ES_READONLY, 0);
     pDisplayBox->SetWindowPos(HWND_TOP, rc, 0);
+
+    HRSRC hResource = FindResource(
+        g_hInstance,
+        MAKEINTRESOURCE(FONT_7SEGMENT),
+        L"BINARY");
+
+    if (hResource)
+    {
+        HGLOBAL hGlobal = LoadResource(g_hInstance, hResource);
+        if (hGlobal != nullptr)
+        {
+            void* fontData = LockResource(hGlobal);
+            DWORD numFonts = 0;
+            DWORD size = SizeofResource(g_hInstance, hResource);
+            HANDLE hFakeFont = AddFontMemResourceEx(
+                fontData, 
+                size, 
+                nullptr, 
+                &size);
+            
+            HFONT hFont = CreateFontW(
+                20, // Height
+                0, // Auto width
+                0,
+                0,
+                FW_BOLD,
+                true, // italic
+                false, // underline
+                false, // strikethrough
+                DEFAULT_CHARSET,
+                OUT_OUTLINE_PRECIS,
+                CLIP_DEFAULT_PRECIS,
+                ANTIALIASED_QUALITY,
+                VARIABLE_PITCH,
+                L"DSEG7 Classic");
+            
+            SendMessageW(
+                pDisplayBox->GetHWND(),
+                WM_SETFONT,
+                (WPARAM)hFont,
+                TRUE);
+        }   
+    }
 }
 
 void MainWindowCreated(Window* pThis, WPARAM wParam, LPARAM lParam)

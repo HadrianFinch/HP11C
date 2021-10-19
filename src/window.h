@@ -244,6 +244,11 @@ public:
         return oldText;
     }
 
+    HWND GetHWND() const
+    {
+        return m_hwnd;
+    }
+
     void SetWindowPos(HWND hwndInsertAfter, Rect rc, UINT flags)
     {
         ::SetWindowPos(

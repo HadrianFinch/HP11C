@@ -13,3 +13,5 @@ IMG_BUTTON            IMAGE      images\GenericButton.png
 
 IMG_FBUTTON             IMAGE    images\fButton.png
 IMG_GBUTTON             IMAGE    images\gButton.png
+
+FONT_7SEGMENT           BINARY     "DSEG7Classic-BoldItalic.ttf"

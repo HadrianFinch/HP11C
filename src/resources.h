@@ -11,3 +11,5 @@
 
 #define IMG_FBUTTON                 9
 #define IMG_GBUTTON                 10
+
+#define FONT_7SEGMENT               244

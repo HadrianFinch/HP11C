@@ -25,6 +25,16 @@ void SetX(long double val)
     stackString = text;
 }
 
+void SetNewX(long double val)
+{
+    // Update the stack
+    stack[3] = stack[2];
+    stack[2] = stack[1];
+    stack[1] = stack[0];
+
+    SetX(val);
+}
+
 void StackStringToStack0()
 {
     stack[0] = _wtof(stackString.c_str());
@@ -74,7 +84,7 @@ bool CheckSTORCLFIX(int numValue)
         wstring regName = L"STOvalue";
         regName += to_wstring(numValue);
 
-        SetX(LoadlongdoubleFromRegister(regName.c_str(), 0));
+        SetNewX(LoadlongdoubleFromRegister(regName.c_str(), 0));
         UpdateDisplay();
     }
     else if (FIXmodeActive)
@@ -375,7 +385,7 @@ void ChangeSignKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
     {
         FkeyActive = false;
         ExitEditMode();
-        SetX(f_pi);
+        SetNewX(f_pi);
     }
     else if (GkeyActive) // Blue
     {
@@ -503,12 +513,14 @@ void STOkeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
     ExitEditMode();
     STOmodeActive = !STOmodeActive;
+    UpdateDisplay();
 }
 
 void RCLkeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
     ExitEditMode();
     RCLmodeActive = !RCLmodeActive;
+    UpdateDisplay();
 }
 
 void FKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)

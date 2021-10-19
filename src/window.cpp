@@ -453,6 +453,20 @@ LRESULT Window::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
         Call(m_WMKEYUP, wParam, lParam);
         return 0;
     }
+    else if (msg == WM_CTLCOLORSTATIC)
+    {
+        if (m_type == WindowType_Color)
+        {
+            SetTextColor((HDC)wParam,RGB(0, 0, 0));
+            SetBkMode((HDC)wParam,TRANSPARENT);
+
+            COLORREF colorref = m_color;
+            HBRUSH brush = CreateSolidBrush(colorref);
+
+            return (LRESULT)brush;            
+        }
+        return DefWindowProc(m_hwnd, msg, wParam, lParam);        
+    }
 
     return DefWindowProc(m_hwnd, msg, wParam, lParam);
 }
