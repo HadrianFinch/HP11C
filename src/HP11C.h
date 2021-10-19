@@ -16,6 +16,10 @@ extern bool inEditMode;
 extern bool FkeyActive;
 extern bool GkeyActive;
 
+extern bool RCLmodeActive;
+extern bool STOmodeActive;
+extern bool FIXmodeActive;
+
 extern int f_fix;
 
 extern long double f_pi;

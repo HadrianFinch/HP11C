@@ -14,6 +14,10 @@ bool inEditMode = false;
 bool FkeyActive = false;
 bool GkeyActive = false;
 
+bool RCLmodeActive = false;
+bool STOmodeActive = false;
+bool FIXmodeActive = false;
+
 int f_fix = 2;
 
 long double f_pi = 3.141592653589793238462643383279502884197169399375105820974944592307816406286;
@@ -36,6 +40,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     {
         return HRESULT_CODE(hr);
     }
+    
+    f_fix = LoadlongFromRegister(L"FIXvalue", 2);
 
     SetX(LoadlongdoubleFromRegister(L"Stack0", 0));
     stack[1] = LoadlongdoubleFromRegister(L"Stack1", 0);

@@ -49,8 +49,52 @@ void EnterEditMode()
     }
 }
 
+bool CheckSTORCLFIX(int numValue)
+{
+    bool ret = STOmodeActive or RCLmodeActive or FIXmodeActive;
+
+    if (STOmodeActive)
+    {
+        STOmodeActive = false;
+
+        wstring regName = L"STOvalue";
+        regName += to_wstring(numValue);
+
+        SavelongdoubleToRegister(regName.c_str(), stack[0]);
+        UpdateDisplay();
+    }
+    else if (RCLmodeActive)
+    {
+        RCLmodeActive = false;
+
+        stack[3] = stack[2];
+        stack[2] = stack[1];
+        stack[1] = stack[0];
+
+        wstring regName = L"STOvalue";
+        regName += to_wstring(numValue);
+
+        SetX(LoadlongdoubleFromRegister(regName.c_str(), 0));
+        UpdateDisplay();
+    }
+    else if (FIXmodeActive)
+    {
+        FIXmodeActive = false;
+
+        f_fix = numValue;
+        SaveLongToRegister(L"FIXvalue", f_fix);
+
+        SetX(stack[0]);
+        UpdateDisplay();
+    }
+
+    return ret;
+}
+
 void ExitEditMode()
 {
+    RCLmodeActive = false;
+    STOmodeActive = false;
     shiftStackOnEditMode = true;
     if (inEditMode)
     {
@@ -61,97 +105,143 @@ void ExitEditMode()
 // Numerical Keys
 void Key0Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    EnterEditMode();
-    
-    stackString += '0';
-    StackStringToStack0();
-    UpdateDisplay();
+    if (!CheckSTORCLFIX(0))
+    {
+        EnterEditMode();
+
+        stackString += '0';
+        StackStringToStack0();
+        UpdateDisplay();
+    }
 }
 
 void Key1Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    EnterEditMode();
-    
-    stackString += '1';
-    StackStringToStack0();
-    UpdateDisplay();
+    if (!CheckSTORCLFIX(1))
+    {
+        EnterEditMode();
+
+        stackString += '1';
+        StackStringToStack0();
+        UpdateDisplay();
+    }
 }
 
 void Key2Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    EnterEditMode();
-    
-    stackString += '2';
-    StackStringToStack0();
-    UpdateDisplay();
+    if (!CheckSTORCLFIX(2))
+    {
+        EnterEditMode();
+
+        stackString += '2';
+        StackStringToStack0();
+        UpdateDisplay();
+    }
 }
 
 void Key3Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    EnterEditMode();
-    
-    stackString += '3';
-    StackStringToStack0();
-    UpdateDisplay();
+    if (!CheckSTORCLFIX(3))
+    {
+        EnterEditMode();
+
+        stackString += '3';
+        StackStringToStack0();
+        UpdateDisplay();
+    }
 }
 
 void Key4Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    EnterEditMode();
-    
-    stackString += '4';
-    StackStringToStack0();
-    UpdateDisplay();
+    if (!CheckSTORCLFIX(4))
+    {
+        EnterEditMode();
+
+        stackString += '4';
+        StackStringToStack0();
+        UpdateDisplay();
+    }
 }
 
 void Key5Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    EnterEditMode();
-    
-    stackString += '5';
-    StackStringToStack0();
-    UpdateDisplay();
+    if (!CheckSTORCLFIX(5))
+    {
+        EnterEditMode();
+
+        stackString += '5';
+        StackStringToStack0();
+        UpdateDisplay();
+    }
 }
 
 void Key6Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    EnterEditMode();
-    
-    stackString += '6';
-    StackStringToStack0();
-    UpdateDisplay();
+    if (!CheckSTORCLFIX(6))
+    {
+        EnterEditMode();
+
+        stackString += '6';
+        StackStringToStack0();
+        UpdateDisplay();
+    }
 }
 
 void Key7Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    EnterEditMode();
-    
-    stackString += '7';
-    StackStringToStack0();
-    UpdateDisplay();
+    if (FkeyActive) // Orange
+    {
+        FkeyActive = false;
+        ExitEditMode();
+        FIXmodeActive = !FIXmodeActive;
+    }
+    else if (GkeyActive) // Blue
+    {
+        GkeyActive = false;
+    }
+    else
+    {
+        if (!CheckSTORCLFIX(7))
+        {
+            EnterEditMode();
+
+            stackString += '7';
+            StackStringToStack0();
+            UpdateDisplay();
+        }
+    }
 }
 
 void Key8Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    EnterEditMode();
-    
-    stackString += '8';
-    StackStringToStack0();
-    UpdateDisplay();
+    if (!CheckSTORCLFIX(8))
+    {
+        EnterEditMode();
+
+        stackString += '8';
+        StackStringToStack0();
+        UpdateDisplay();
+    }
 }
 
 void Key9Press(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    EnterEditMode();
-    
-    stackString += '9';
-    StackStringToStack0();
-    UpdateDisplay();
+    if (!CheckSTORCLFIX(9))
+    {
+        EnterEditMode();
+
+        stackString += '9';
+        StackStringToStack0();
+        UpdateDisplay();
+    }
 }
 
 void KeyDecimalPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
     EnterEditMode();
+
+    RCLmodeActive = false;
+    STOmodeActive = false;
 
     bool alreadyUsed = (stackString.find('.') != wstring::npos);
     if (!alreadyUsed)
@@ -407,6 +497,18 @@ void RollDown(Window* pThis, WPARAM wParam, LPARAM lParam)
 
         UpdateDisplay();
     }
+}
+
+void STOkeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
+{
+    ExitEditMode();
+    STOmodeActive = !STOmodeActive;
+}
+
+void RCLkeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
+{
+    ExitEditMode();
+    RCLmodeActive = !RCLmodeActive;
 }
 
 void FKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)

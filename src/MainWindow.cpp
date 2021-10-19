@@ -76,6 +76,8 @@ void CreateMainWindow()
     buttons[18]->OnClick(BackspaceKeyPress);
     buttons[14]->OnClick(XYReverseKeyPress);
     buttons[10]->OnClick(RollDown);
+    buttons[15]->OnClick(STOkeyPress);
+    buttons[19]->OnClick(RCLkeyPress);
 
     // fix the F button
     buttonRect = buttons[7]->GetRect();
