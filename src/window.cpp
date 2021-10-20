@@ -460,6 +460,8 @@ LRESULT Window::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
             SetTextColor((HDC)wParam,RGB(0, 0, 0));
             SetBkMode((HDC)wParam,TRANSPARENT);
 
+            SetTextCharacterExtra((HDC)wParam, 2);
+
             COLORREF colorref = m_color;
             HBRUSH brush = CreateSolidBrush(colorref);
 

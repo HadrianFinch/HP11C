@@ -7,6 +7,7 @@ void GetMonitorDPI(Window* pThis, WPARAM wParam, LPARAM lParam);
 void KeyboardInputController(Window* pThis, WPARAM wParam, LPARAM lParam);
 
 EditBox* pDisplayBox;
+EditBox* pSecondDisplayBox;
 Window* pButtonBackground;
 
 void CreateMainWindow()
@@ -117,10 +118,15 @@ void CreateMainWindow()
     Window* pDisplayBackground = Window::Create(rc, 0x005d553f, pTopBar);
 
     // add the display
-    rc.Size({235, 22});
-    rc.Point({14, 12});
+    rc.Size({235, 25});
+    rc.Point({12, 12});
     pDisplayBox = new EditBox(rc, stackString, pDisplayBackground->GetHWND(), ES_READONLY, 0);
     pDisplayBox->SetWindowPos(HWND_TOP, rc, 0);
+
+    rc.Size({100, 10});
+    rc.Point({12, 35});
+    pSecondDisplayBox = new EditBox(rc, L"", pDisplayBackground->GetHWND(), ES_READONLY, 0);
+    pSecondDisplayBox->SetWindowPos(HWND_TOP, rc, 0);
 
     HRSRC hResource = FindResource(
         g_hInstance,
@@ -142,7 +148,7 @@ void CreateMainWindow()
                 &size);
             
             HFONT hFont = CreateFontW(
-                20, // Height
+                22, // font size
                 0, // Auto width
                 0,
                 0,
@@ -159,6 +165,28 @@ void CreateMainWindow()
             
             SendMessageW(
                 pDisplayBox->GetHWND(),
+                WM_SETFONT,
+                (WPARAM)hFont,
+                TRUE);
+
+            hFont = CreateFontW(
+                9, // font size
+                0, // Auto width
+                0,
+                0,
+                FW_NORMAL,
+                false, // italic
+                false, // underline
+                false, // strikethrough
+                DEFAULT_CHARSET,
+                OUT_OUTLINE_PRECIS,
+                CLIP_DEFAULT_PRECIS,
+                ANTIALIASED_QUALITY,
+                VARIABLE_PITCH,
+                L"Consolas");
+
+            SendMessageW(
+                pSecondDisplayBox->GetHWND(),
                 WM_SETFONT,
                 (WPARAM)hFont,
                 TRUE);
@@ -258,4 +286,9 @@ void UpdateDisplay(void)
 {
     // stack[0] = _wtof(stackString.c_str()); // Moved to SetX()
     pDisplayBox->SetText(stackString);
+}
+
+void SetSecondDisplayText(std::wstring text)
+{
+    pSecondDisplayBox->SetText(text);
 }

@@ -103,6 +103,7 @@ bool CheckSTORCLFIX(int numValue)
 
 void ExitEditMode()
 {
+    SetSecondDisplayText(L"");
     RCLmodeActive = false;
     STOmodeActive = false;
     shiftStackOnEditMode = true;
@@ -525,12 +526,14 @@ void RCLkeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 
 void FKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
+    SetSecondDisplayText(L"f");
     FkeyActive = true;
     GkeyActive = false;
 }
 
 void GKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
+    SetSecondDisplayText(L"g");
     GkeyActive = true;
     FkeyActive = false;
 }
