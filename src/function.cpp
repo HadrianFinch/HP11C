@@ -22,7 +22,15 @@ void SetX(long double val)
         _countof(text),
         formatString,
         val);
-    stackString = text;
+
+    wstring str = text;
+
+    if ((val != val) or (str == L"inf"))
+    {
+        str = L"error";
+    }   
+    
+    stackString = str;
 }
 
 void SetNewX(long double val)
@@ -106,10 +114,13 @@ void ExitEditMode()
     SetSecondDisplayText(L"");
     RCLmodeActive = false;
     STOmodeActive = false;
+    FIXmodeActive = false;
+
     shiftStackOnEditMode = true;
     if (inEditMode)
     {
         inEditMode = false;
+        SetX(_wtof(stackString.c_str()));
     }
 }
 
