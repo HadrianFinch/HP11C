@@ -5,6 +5,8 @@ void MainWindowCreated(Window* pThis, WPARAM wParam, LPARAM lParam);
 void CalculateDPI(Window* pThis, WPARAM wParam, LPARAM lParam);
 void GetMonitorDPI(Window* pThis, WPARAM wParam, LPARAM lParam);
 void KeyboardInputController(Window* pThis, WPARAM wParam, LPARAM lParam);
+void OnTopBarRightClick(Window* pThis, WPARAM wParam, LPARAM mouseParam);
+void ContextMenuClick(Window* pThis, WPARAM wParam, LPARAM lParam);
 
 EditBox* pDisplayBox;
 EditBox* pSecondDisplayBox;
@@ -23,6 +25,8 @@ void CreateMainWindow()
     rc.Point({8, 0});
     Window* pTopBar = Window::Create(rc, 0x00d8d8d8, pMainWindow);
     pTopBar->SetDrag(pMainWindow);
+    pTopBar->OnRightClick(OnTopBarRightClick);
+    pTopBar->OnMenuItemClick(ContextMenuClick);
 
     rc.Point({440, 10});
     Window* pMinimize = Window::Create(rc, WindowType_Minimize, pTopBar);
@@ -192,11 +196,25 @@ void CreateMainWindow()
                 TRUE);
         }   
     }
+
+    pMainWindow->OnCreate(MainWindowCreated);
 }
 
 void MainWindowCreated(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
     pThis->SetWindowPos(NULL, pThis->GetRect(), 0);
+
+    long exStyle = GetWindowLongW(pThis->GetHWND(), GWL_EXSTYLE);
+    if (alawaysOnTop)
+    {
+        pThis->MakeTopmost();
+    }
+    else if (!alawaysOnTop)
+    {
+        exStyle &= ~WS_EX_TOPMOST;
+        pThis->SetWindowPos(HWND_NOTOPMOST, {}, SWP_NOMOVE | SWP_NOSIZE);
+        SetWindowLong(pThis->GetHWND(), GWL_EXSTYLE, exStyle);
+    }
 }
 
 void KeyboardInputController(Window* pThis, WPARAM keycode, LPARAM lParam)
@@ -280,6 +298,119 @@ void KeyboardInputController(Window* pThis, WPARAM keycode, LPARAM lParam)
             BackspaceKeyPress(nullptr, 0, 0);
         break;
     }    
+}
+
+const int MENU_ALAWAYSONTOP = 1;
+const int MENU_COPYTOCLIPBOARD = 2;
+const int MENU_CHECKFORUPDATES = 3;
+const int MENU_QUIT = 4;
+
+void OnTopBarRightClick(Window* pThis, WPARAM wParam, LPARAM mouseParam)
+{
+    DWORD flags = MF_BYPOSITION | MF_STRING;
+    HMENU hPopupMenu = CreatePopupMenu();
+    InsertMenu(
+        hPopupMenu, 
+        0, 
+        MF_BYPOSITION | MF_STRING, 
+        MENU_QUIT, 
+        L"Quit App");
+
+    InsertMenu(
+        hPopupMenu, 
+        0, 
+        MF_BYPOSITION | MF_STRING, 
+        MENU_CHECKFORUPDATES, 
+        L"Check for Updates");
+
+    if (autoCopyToClipboard)
+    {
+        flags += MF_CHECKED;
+    }
+    else
+    {
+        flags += MF_UNCHECKED;
+    }    
+    InsertMenu(
+        hPopupMenu, 
+        0, 
+        flags, 
+        MENU_COPYTOCLIPBOARD, 
+        L"Automatically copy to Clipboard");
+
+    flags = MF_BYPOSITION | MF_STRING;
+    if (alawaysOnTop)
+    {
+        flags += MF_CHECKED;
+    }
+    else
+    {
+        flags += MF_UNCHECKED;
+    }
+    InsertMenu(
+        hPopupMenu, 
+        0, 
+        flags, 
+        MENU_ALAWAYSONTOP, 
+        L"Keep Window on Top");
+
+    SetForegroundWindow(pThis->GetHWND());
+
+    Rect mouseLocation; 
+    mouseLocation.Point({GET_X_LPARAM(mouseParam), GET_Y_LPARAM(mouseParam)});
+    
+    TrackPopupMenu(
+        hPopupMenu, 
+        TPM_BOTTOMALIGN | TPM_LEFTALIGN, 
+        mouseLocation.Point().x, mouseLocation.Point().y, 
+        0,
+        pThis->GetHWND(),
+        NULL);
+}
+
+void ContextMenuClick(Window* pThis, WPARAM wParam, LPARAM lParam)
+{
+    const int buttonId = LOWORD(wParam);
+
+    switch (buttonId)
+    {
+        case MENU_ALAWAYSONTOP:
+        {
+            long exStyle = GetWindowLongW(pThis->GetParent()->GetHWND(), GWL_EXSTYLE);
+            if (!alawaysOnTop)
+            {
+                pThis->GetParent()->MakeTopmost();
+                alawaysOnTop = true;
+            }
+            else if (alawaysOnTop)
+            {
+                exStyle &= ~WS_EX_TOPMOST;
+                pThis->GetParent()->SetWindowPos(HWND_NOTOPMOST, {}, SWP_NOMOVE | SWP_NOSIZE);
+                alawaysOnTop = false;
+                SetWindowLong(pThis->GetParent()->GetHWND(), GWL_EXSTYLE, exStyle);
+            }
+        }
+        break;
+
+        case MENU_COPYTOCLIPBOARD:
+        {
+            autoCopyToClipboard = !autoCopyToClipboard;
+        }
+        break;
+
+        case MENU_CHECKFORUPDATES:
+        {
+            Sleep(1200);
+            SetSecondDisplayText(L"UP TO DATE");
+        }
+        break;
+
+        case MENU_QUIT:
+        {
+            PostQuitMessage(0);
+        }
+        break;
+    }
 }
 
 void UpdateDisplay(void)

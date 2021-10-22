@@ -33,6 +33,7 @@ protected:
     bool m_sizeable = false;
 
     vector<Window*> m_children;
+    Window* m_pParent = nullptr;
 
     LRESULT WndProc(UINT msg, WPARAM wParam, LPARAM lParam);
     PFN_wndProc m_pWndProc = nullptr;
@@ -43,9 +44,12 @@ protected:
     PFN_wndFunc m_WMCREATE = nullptr;
     PFN_wndFunc m_WMLBUTTONDOWN = nullptr;
     PFN_wndFunc m_WMLBUTTONUP = nullptr;
+    PFN_wndFunc m_WMRBUTTONUP = nullptr;
+    PFN_wndFunc m_WMCOMMAND = nullptr;
     PFN_wndFunc m_WMMOUSEMOVE = nullptr;
     PFN_wndFunc m_WMNCHITTEST = nullptr;
     PFN_wndFunc m_WMKEYUP = nullptr;
+
 
 protected:
     bool Call(PFN_wndFunc pfnFunc, WPARAM wParam, LPARAM lParam)
@@ -57,6 +61,8 @@ protected:
         }
         return false;
     }
+    static const unsigned int s_wmMakeForground = WM_USER + 1;
+    static const unsigned int s_wmMakeTopmost = WM_USER + 2;
     static LRESULT CALLBACK s_wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
     static constexpr PCWSTR s_className = L"DynamicWindow_v1";
     static bool s_classRegistered;
@@ -161,6 +167,19 @@ public:
         m_dragWindow = parent;
     }
 
+    Window* GetParent()
+    {
+        return m_pParent;
+    }
+
+    void MakeForground()
+    {
+        PostMessageW(m_hwnd, s_wmMakeForground, 0, 0);
+    }
+    void MakeTopmost()
+    {
+        PostMessageW(m_hwnd, s_wmMakeTopmost, 0, 0);
+    }
 
     void OnClick(PFN_wndFunc func)
     {
@@ -177,6 +196,14 @@ public:
     void OnCreate(PFN_wndFunc func)
     {
         m_WMCREATE = func;
+    }
+    void OnRightClick(PFN_wndFunc func)
+    {
+        m_WMRBUTTONUP = func;
+    }
+    void OnMenuItemClick(PFN_wndFunc func)
+    {
+        m_WMCOMMAND = func;
     }
     void OnKeyPress(PFN_wndFunc func)
     {

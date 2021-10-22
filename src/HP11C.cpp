@@ -22,6 +22,9 @@ int f_fix = 2;
 
 long double f_pi = 3.141592653589793238462643383279502884197169399375105820974944592307816406286;
 
+bool alawaysOnTop = false;
+bool autoCopyToClipboard = false;
+
 bool shiftStackOnEditMode = true;
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
@@ -48,6 +51,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     stack[2] = LoadlongdoubleFromRegister(L"Stack2", 0);
     stack[3] = LoadlongdoubleFromRegister(L"Stack3", 0);
 
+    autoCopyToClipboard = LoadlongFromRegister(L"autoClipboard", false);
+    alawaysOnTop = LoadlongFromRegister(L"keepOnTop", false);
+
     CreateMainWindow();
     
     // spam that message loop
@@ -57,6 +63,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         TranslateMessage(&msg);        
         DispatchMessage(&msg);
     }
+
+    SaveLongToRegister(L"autoClipboard", autoCopyToClipboard);
+    SaveLongToRegister(L"keepOnTop", alawaysOnTop);
 
     SavelongdoubleToRegister(L"Stack0", stack[0]);
     SavelongdoubleToRegister(L"Stack1", stack[1]);

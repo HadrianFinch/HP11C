@@ -24,4 +24,7 @@ extern int f_fix;
 
 extern long double f_pi;
 
+extern bool alawaysOnTop;
+extern bool autoCopyToClipboard;
+
 extern bool shiftStackOnEditMode;

@@ -82,6 +82,7 @@ void Window::initilize(
     DWORD dwStyle, 
     DWORD dwExStyle)
 {
+    m_pParent = hwndParent;
     m_type = wt;
 
     // Change styles
@@ -207,7 +208,7 @@ LRESULT Window::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
         Call(m_WMCREATE, wParam, lParam);
     }
     
-    if ((GetParent(m_hwnd) == NULL))
+    if ((::GetParent(m_hwnd) == NULL))
     {
         if (msg == WM_NCCALCSIZE)
         {
@@ -333,7 +334,7 @@ LRESULT Window::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
                     if (parentHeight == Rect::SIZE_FULL)
                     {
                         Rect rc2;
-                        rc2.GetClientRect(GetParent(m_hwnd));
+                        rc2.GetClientRect(::GetParent(m_hwnd));
                         parentHeight = rc2.Height();
                     }
                     
@@ -350,7 +351,7 @@ LRESULT Window::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
                     if (parentWidth == Rect::SIZE_FULL)
                     {
                         Rect rc2;
-                        rc2.GetClientRect(GetParent(m_hwnd));
+                        rc2.GetClientRect(::GetParent(m_hwnd));
                         parentWidth = rc2.Width();
                     }
                     
@@ -388,13 +389,13 @@ LRESULT Window::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
         {
             case WindowType_Close:
             {
-                DestroyWindow(GetParent(GetParent(m_hwnd)));
+                DestroyWindow(::GetParent(::GetParent(m_hwnd)));
             }
             return 0;
 
             case WindowType_Minimize:
             {
-                HWND hwnd = GetParent(GetParent(m_hwnd));
+                HWND hwnd = ::GetParent(::GetParent(m_hwnd));
                 ShowWindow(hwnd, SW_MINIMIZE);
             }
             return 0;
@@ -453,6 +454,27 @@ LRESULT Window::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
         Call(m_WMKEYUP, wParam, lParam);
         return 0;
     }
+    else if (msg == WM_CONTEXTMENU)
+    {
+        Call(m_WMRBUTTONUP, wParam, lParam);
+        return 0;
+    }    
+    else if (msg == WM_COMMAND)
+    {
+        Call(m_WMCOMMAND, wParam, lParam);
+        return 0;
+    }    
+    else if (msg == s_wmMakeForground)
+    {
+        SetForegroundWindow(m_hwnd);
+        return 0;
+    }    
+    else if (msg == s_wmMakeTopmost)
+    {
+        SetForegroundWindow(m_hwnd);
+        SetWindowPos(HWND_TOPMOST, {}, SWP_NOMOVE | SWP_NOSIZE);
+        return 0;
+    }    
     else if (msg == WM_CTLCOLORSTATIC)
     {
         if (m_type == WindowType_Color)
