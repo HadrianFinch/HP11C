@@ -31,6 +31,20 @@ void SetX(long double val)
     }   
     
     stackString = str;
+
+    if (autoCopyToClipboard)
+    {
+        const WCHAR* output = stackString.c_str();
+        const size_t len = stackString.size() + 1;
+        HGLOBAL hMem =  GlobalAlloc(GMEM_MOVEABLE, len);
+        memcpy(GlobalLock(hMem), output, len);
+        GlobalUnlock(hMem);
+        OpenClipboard(NULL);
+        EmptyClipboard();
+        SetClipboardData(CF_UNICODETEXT, hMem);
+        CloseClipboard();        
+    }
+    
 }
 
 void SetNewX(long double val)
