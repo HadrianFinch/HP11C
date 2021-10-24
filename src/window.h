@@ -210,6 +210,12 @@ public:
         m_WMKEYUP = func;
     }
 
+    void SimulateClick()
+    {
+        Call(m_WMLBUTTONDOWN, 0, 0);
+        Call(m_WMLBUTTONUP, 0, 0);
+    }
+
     void Disable()
     {
         EnableWindow(m_hwnd, FALSE);

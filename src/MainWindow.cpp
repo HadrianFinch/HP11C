@@ -6,7 +6,9 @@ void CalculateDPI(Window* pThis, WPARAM wParam, LPARAM lParam);
 void GetMonitorDPI(Window* pThis, WPARAM wParam, LPARAM lParam);
 void KeyboardInputController(Window* pThis, WPARAM wParam, LPARAM lParam);
 void OnTopBarRightClick(Window* pThis, WPARAM wParam, LPARAM mouseParam);
+void ButtonRightClick(Window* pThis, WPARAM wParam, LPARAM mouseParam);
 void ContextMenuClick(Window* pThis, WPARAM wParam, LPARAM lParam);
+void ButtonContextMenuClick(Window* pThis, WPARAM wParam, LPARAM lParam);
 
 EditBox* pDisplayBox;
 EditBox* pSecondDisplayBox;
@@ -47,6 +49,9 @@ void CreateMainWindow()
 
             Window* pButton = Window::Create(buttonRect, WindowType_Layered, IMG_BUTTON, pMainWindow);
             pButton->SetWindowPos(HWND_TOP, buttonRect, 0);
+
+            pButton->OnRightClick(ButtonRightClick);
+            pButton->OnMenuItemClick(ButtonContextMenuClick);
 
             buttons.push_back(pButton);
         }
@@ -303,7 +308,8 @@ void KeyboardInputController(Window* pThis, WPARAM keycode, LPARAM lParam)
 const int MENU_ALAWAYSONTOP = 1;
 const int MENU_COPYTOCLIPBOARD = 2;
 const int MENU_CHECKFORUPDATES = 3;
-const int MENU_QUIT = 4;
+const int MENU_COPY = 4;
+const int MENU_QUIT = 5;
 
 void OnTopBarRightClick(Window* pThis, WPARAM wParam, LPARAM mouseParam)
 {
@@ -315,6 +321,13 @@ void OnTopBarRightClick(Window* pThis, WPARAM wParam, LPARAM mouseParam)
         MF_BYPOSITION | MF_STRING, 
         MENU_QUIT, 
         L"Quit App");
+
+    InsertMenu(
+        hPopupMenu, 
+        0, 
+        MF_BYPOSITION | MF_STRING, 
+        MENU_COPY, 
+        L"Copy Result to Clipboard");
 
     InsertMenu(
         hPopupMenu, 
@@ -405,9 +418,95 @@ void ContextMenuClick(Window* pThis, WPARAM wParam, LPARAM lParam)
         }
         break;
 
+        case MENU_COPY:
+        {
+            bool prev = autoCopyToClipboard;
+            autoCopyToClipboard = true;
+            SetX(stack[0]);
+            autoCopyToClipboard = prev;
+        }
+        break;
+
         case MENU_QUIT:
         {
             PostQuitMessage(0);
+        }
+        break;
+    }
+}
+
+const int BUTTON_MENU_NORMAL = 0;
+const int BUTTON_MENU_F = 1;
+const int BUTTON_MENU_G = 2;
+
+void ButtonRightClick(Window* pThis, WPARAM wParam, LPARAM mouseParam)
+{
+    HMENU hPopupMenu = CreatePopupMenu();
+
+    InsertMenu(
+        hPopupMenu, 
+        0, 
+        MF_BYPOSITION | MF_STRING, 
+        BUTTON_MENU_F, 
+        L"F");
+
+    InsertMenu(
+        hPopupMenu, 
+        1, 
+        MF_BYPOSITION | MF_STRING, 
+        BUTTON_MENU_G, 
+        L"G");
+
+    InsertMenu(
+        hPopupMenu, 
+        2, 
+        MF_BYPOSITION | MF_STRING, 
+        BUTTON_MENU_NORMAL, 
+        L"Normal");
+
+    SetForegroundWindow(pThis->GetHWND());
+
+    Rect mouseLocation; 
+    mouseLocation.Point({GET_X_LPARAM(mouseParam), GET_Y_LPARAM(mouseParam)});
+    
+    TrackPopupMenu(
+        hPopupMenu, 
+        TPM_BOTTOMALIGN | TPM_LEFTALIGN, 
+        mouseLocation.Point().x, mouseLocation.Point().y, 
+        0,
+        pThis->GetHWND(),
+        NULL);
+}
+
+void ButtonContextMenuClick(Window* pThis, WPARAM wParam, LPARAM lParam)
+{
+    const int buttonId = LOWORD(wParam);
+
+    switch (buttonId)
+    {
+        case BUTTON_MENU_NORMAL:
+        {
+            GkeyActive = false;
+            FkeyActive = false;
+            pThis->SimulateClick();
+        }
+        break;
+
+        case BUTTON_MENU_F:
+        {
+            GkeyActive = false;
+            FkeyActive = true;
+            pThis->SimulateClick();
+            FkeyActive = false;
+        }
+        break;
+
+        case BUTTON_MENU_G:
+        {
+            FkeyActive = false;
+            GkeyActive = true;
+            pThis->SimulateClick();
+            GkeyActive = false;
         }
         break;
     }

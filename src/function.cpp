@@ -477,14 +477,21 @@ void EnterKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 
 void BackspaceKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    if (stackString.size() > 1)
+    if (inEditMode)
     {
-        stackString = stackString.substr(0, stackString.size() - 1);
+        if (stackString.size() > 1)
+        {
+            stackString = stackString.substr(0, stackString.size() - 1);
+        }
+        else
+        {
+            ExitEditMode();
+            SetX(0);
+        }
     }
     else
     {
-        ExitEditMode();
-        SetX(stack[1]);
+        SetX(0);
     }
     UpdateDisplay();
 }
@@ -558,7 +565,7 @@ void FKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 
 void GKeyPress(Window* pThis, WPARAM wParam, LPARAM lParam)
 {
-    SetSecondDisplayText(L"g");
+    SetSecondDisplayText(L"    g");
     GkeyActive = true;
     FkeyActive = false;
 }
